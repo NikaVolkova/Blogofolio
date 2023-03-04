@@ -10,8 +10,9 @@ type InputProps={
     placeholder:string;
     disabled?:boolean;
     errorText?:string;
+    type?: string;
 }
-const TextInput:FC<InputProps>=({value,onChange,title,placeholder,disabled,errorText})=>{
+const TextInput:FC<InputProps>=({value,onChange,type,title,placeholder,disabled,errorText})=>{
 
 
 const onChangeText = (e: React.ChangeEvent<HTMLInputElement>)=>{

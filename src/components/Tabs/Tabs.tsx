@@ -1,37 +1,17 @@
-import React,{useState} from "react";
+import React, { FC, MouseEventHandler, useState } from "react";
 import classNames from "classnames";
 import styles from './Tabs.module.scss';
-enum TabsNames{
-    ALL=0,
-    FAVOURITES=1,
-    POPULAR=2,
-}
-const TABS_LIST =[
-    {
-        title:'All',
-        disabled:false,
-        key:TabsNames.ALL,
-    },
-    {
-        title:'My favorites',
-        disabled:false,
-        key:TabsNames.FAVOURITES,
-    },
-    {
-        title:'Popular',
-        disabled:false,
-        key:TabsNames.POPULAR,
-    },
-];
-const Tabs = () => {
-    const [activeTab,setActiveTab]= useState(TabsNames.ALL);
-const onTabClick = (key:TabsNames)=>()=>{
-return  setActiveTab(key);
-};
+import {TabsNames, TabsProps} from "./type";
+import {Theme, useThemeContext} from "../../components/context/Theme/Context";
+
+const Tabs: FC<TabsProps> = ({ tabsList, activeTab, onClick }) => {
+    const onTabClick = (key: TabsNames) => () => onClick(key);
+  const {theme} =useThemeContext()
 
 return (
-    <div className={styles.container}>
-    {TABS_LIST.map((tab)=>{
+    <div className={classNames(styles.container, {
+        [styles.darkContainer]: theme === Theme.Dark })}>
+        {tabsList.map((tab) => {
     return <div 
     key={tab.key} 
     className={classNames(styles.tab,{
