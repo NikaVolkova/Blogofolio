@@ -17,7 +17,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const onClickBurgerBtn = () => {
+  const onClickMenuButton = () => {
     setOpened(!isOpened);
   };
 
@@ -44,9 +44,9 @@ const Header = () => {
       <div className={styles.container}>
         <Button
           title={isOpened ? <CloseIcon /> : <OpenedMenu />}
-          onClick={onClickBurgerBtn}
+          onClick={onClickMenuButton}
           type={ButtonType.Primary}
-          className={styles.BurgerBtn}
+          className={styles.button}
         />
         <UserName userName={"Artem Malkin"} />
       </div>

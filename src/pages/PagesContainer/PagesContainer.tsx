@@ -1,12 +1,14 @@
 import React from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import classNames from "classnames";
-
+import Home from "../Home";
 import styles from "./PagesContainer.module.scss";
 import { Theme, useThemeContext } from "../../components/context/Theme/Context";
 import Header from "./Header";
 
+
 const PagesContainer = () => {
+
   const { theme } = useThemeContext();
 
   return (
@@ -16,7 +18,7 @@ const PagesContainer = () => {
       })}
     >
       <Header />
-      <div className={styles.mainInfo}>
+           <div className={styles.mainInfo}>
         <Outlet />
         <div className={styles.footer}>
           <div>©2022 Blogfolio</div>
