@@ -1,14 +1,26 @@
-import React,{FC,ReactNode} from "react";
-import  styles from "./Title.module.scss";
+import React, { FC } from "react";
+import classNames from "classnames";
+
+import styles from "../Title/Title.module.scss";
+import { Theme, useThemeContext } from "../../components/context/Theme/Context";
 
 type TitleProps = {
-    title:string | ReactNode;
-  };
-  
-  const Title: FC<TitleProps> = (props:any) => {
-    return <h1 className={styles.title}>{props.title}</h1>
-  };
-  
-  
-  export default Title;
+  title: string;
+};
+
+const Title: FC<TitleProps> = ({ title }) => {
+  const { theme } = useThemeContext();
+
+  return (
+    <div
+      className={classNames(styles.title, {
+        [styles.darkTitle]: theme === Theme.Dark,
+      })}
+    >
+      {title}
+    </div>
+  );
+};
+
+export default Title;
   

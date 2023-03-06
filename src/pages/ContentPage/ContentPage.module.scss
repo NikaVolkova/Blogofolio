@@ -55,8 +55,9 @@ gap: 72px;
         max-height: 518px;
     }
     .textPost{
-        max-width: 920px;
-    max-height: 128px;
+       width: 920px;
+    height: 128px;
+    overflow: hidden;
      font-weight: 400;
      font-size: 18px;
      line-height: 32px;
