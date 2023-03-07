@@ -11,8 +11,11 @@ import ThemeSwitcher from "../../components/ThemeSwitcher";
 import ContentPage from "../ContentPage";
 import SuccessPage from "../SuccessPage";
 import SingInPage from "../SingInPage";
+import SingUpPage from "../SingUpPage";
+import RegConfirmation from "../RegConfirmation";
 import UserBox from "../../components/UserName";
 import BurgerBtn from "../../components/BurgerButton/BurgerButton";
+
 
 const TABS_LIST = [
   {
@@ -200,9 +203,9 @@ const Home = () => {
   }, [MOCK_ARRAY]);
 
   return (
-    <div className={classNames(styles.container, {[styles.darkContainer]: theme === Theme.Dark,
-    })}>
+    <div>
       <BurgerBtn />
+      
       <UserBox userName={"Artem Malkin"} />
       <Title title={"Blog"} />
       <Tabs tabsList={TABS_LIST} activeTab={activeTab} onClick={onTabClick}/>
@@ -211,6 +214,8 @@ const Home = () => {
       <ContentPage content={MOCK_CARD2}/>
       <SingInPage/>
       <SuccessPage/>
+      <SingUpPage/>
+      <RegConfirmation/>
     </div>
   );
 };

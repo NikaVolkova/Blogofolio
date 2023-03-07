@@ -31,6 +31,9 @@
         cursor: pointer;
         color: $primary;
      }
+     &::placeholder{
+        padding-left:20px;
+     }
 }
 
 .disabled{
@@ -44,7 +47,9 @@
         cursor: not-allowed;
         color: $gray;}
 }
+
 .valid{
+    
     left: 2.49%;
     right: 86.58%;
     top: 22.48%;
