@@ -13,9 +13,14 @@
 .button {
   height: 84px;
   width: 84px;
+  padding: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
+  svg{
+    width: 24px !important;
+  }
 }
 .menuContainer {
   position: absolute;
