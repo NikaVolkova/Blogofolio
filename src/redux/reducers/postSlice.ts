@@ -8,15 +8,10 @@ type InitialType={
   isVisibleSelectedModal: boolean;
   likedPosts: CardType[];
   dislikedPosts: CardType[];
+  addPost:CardType[];
  
 };
-type PostState = {
-    selectedPost: CardType | null;
-    isModalPostOpened: boolean;
-    likedPosts: CardType[];
-    dislikedPosts: CardType[];
-   
-  };
+
 
 export enum LikeStatus {
   Like = "like",
@@ -28,7 +23,7 @@ const initialState: InitialType = {
   isVisibleSelectedModal: false,
   likedPosts: [],
   dislikedPosts: [],
-  
+  addPost:[],
 };
 
  const postSlice = createSlice({
@@ -71,10 +66,19 @@ const initialState: InitialType = {
         state[secondaryKey].splice(secondaryIndex, 1);
       }
     },
+    setAddPost:(state, action:PayloadAction<{card:CardType}>)=>{
+      const {card} = action.payload;
+      const addPostIndex =state.addPost.findIndex((post)=>post.id===card.id);
+      if(addPostIndex===-1){
+        state.addPost.push(card);
+      } else{
+        state.addPost.splice(addPostIndex,1);
+      }
+    }
   },
 });
 
-export const { setStatus,setSelectedPost, setPostVisibility } = postSlice.actions;
+export const { setStatus,setSelectedPost,setAddPost, setPostVisibility } = postSlice.actions;
 
 
 export const postName = postSlice.name;
@@ -87,6 +91,7 @@ export const PostSelectors = {
   getSelectedPost: (state: RootState) => state.posts.selectedPost,
   getVisibleSelectedModal: (state: RootState) =>
     state.posts.isVisibleSelectedModal,
+  getAddPost:(state: RootState) => state.posts.addPost,  
 };
 
 
