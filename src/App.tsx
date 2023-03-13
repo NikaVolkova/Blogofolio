@@ -1,38 +1,32 @@
-import React, {useState} from "react";
+import React from "react";
 import './App.css';
+import { Provider, useSelector  } from "react-redux";
 
-import BurgerBtn from './components/BurgerButton/BurgerButton';
 
-import styles from "./App.module.scss";
-import TextInput from './components/Placeholder/Placeholder';
-import Home from "./pages/Home";
 
 import ThemeProvider from "./components/context/Theme/Provider";
 import { Theme } from "./components/context/Theme/Context";
+import Router from "./pages/Router";
+
+import { useDispatch } from "react-redux/es/exports";
+import { changeTheme, ThemeSelectors } from "./redux/reducers/themeSlice";
  
+
 const App=()=> {
-  const [theme, setTheme] = useState(Theme.Dark)
+  
+  const dispatch = useDispatch();
+  const theme = useSelector(ThemeSelectors.getThemeValue);
+
   const onChangeTheme=(value:Theme)=>{
-    setTheme(value)
-  }
-  const[text,setText]=useState("");
+    dispatch(changeTheme(value));
+  };
 
-const onChange=(value:string)=>{
-  setText(value)
-};
-
+  
   return (
-   
-    <div className={styles.container}>
-    
+ 
       <ThemeProvider theme={theme} onChangeTheme={onChangeTheme}>
-    <div className={styles.container}>
-      <Home />
-      </div>
+         <Router/>
       </ThemeProvider>
-      
-      </div>
-    
   );
 }
 
