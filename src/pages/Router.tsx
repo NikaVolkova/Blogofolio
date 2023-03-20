@@ -5,6 +5,8 @@ import PagesContainer from "./PagesContainer";
 import SingInPage from "./SingInPage";
 import SingUpPage from "./SingUpPage";
 import SuccessPage from "./SuccessPage";
+import SinglePost from "./SinglePost";
+import ContentPage from "./ContentPage";
 
 
 import Home from "./Home";
@@ -29,6 +31,7 @@ const Router = () => {
       <Routes>
         <Route path={RoutesList.Home} element={<PagesContainer />}>
           <Route path={RoutesList.Home} element={<Home />} />
+          <Route path={RoutesList.SinglePost} element={<SinglePost/>} />
           <Route path={RoutesList.AddPost} element={isLoggedIn? <Home />:<Navigate to={RoutesList.SignIn}/>} />
           <Route path={RoutesList.SignIn} element={<SingInPage />} />
           <Route path={RoutesList.SignUp} element={<SingUpPage />} />

@@ -1,7 +1,10 @@
 import React,{FC,ReactNode} from "react";
 import styles from "./Modal.module.scss";
-import { CardType } from "../Card";
+import { CardType } from "../../utils/@globalTypes";
 import { CloseIconModal } from "../../assets/icons/CloseIconModal";
+import { Theme, useThemeContext } from "../../components/context/Theme/Context";
+import classNames from "classnames";
+
 
 type ModalProps={
     isVisible:boolean;
@@ -10,9 +13,14 @@ type ModalProps={
 }
 
 const Modal:FC<ModalProps>= ({isVisible, onClose, children})=>{
+    const { theme } = useThemeContext();
     return isVisible? (
        <div className={styles.moduleWraper}>
-            <div className={styles.moduleFilling}>
+            <div 
+            className={classNames (styles.moduleFilling, {
+                [styles.darkFilling]: theme === Theme.Dark,
+                })}
+            >
                 <div className={styles.closeIcon} onClick={onClose}>
                     <CloseIconModal/>
                 </div>

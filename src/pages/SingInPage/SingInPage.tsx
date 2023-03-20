@@ -4,7 +4,7 @@ import Title from "../../components/Title";
 import TextInput from "../../components/Placeholder";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { ButtonType } from "../../components/Button/Button";
+import { ButtonType } from "../../utils/@globalTypes";
 import { Theme, useThemeContext } from "../../components/context/Theme/Context";
 import { NavLink } from "react-router-dom";
 import { RoutesList } from "../Router";
@@ -81,7 +81,10 @@ const SingInPage= () => {
                 [styles.darkSingUp]: isDark,
               })}
             >
-              Don’t have an account? <span>Sign Up</span>
+              Don’t have an account? 
+              <NavLink to={RoutesList.SignUp} className={styles.navButton}>
+              Sign Up
+            </NavLink>
             </div>
           </div>
         </div>
