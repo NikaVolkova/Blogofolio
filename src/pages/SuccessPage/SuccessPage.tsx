@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./SuccessPage.module.scss";
 import Title from "../../components/Title";
 import classNames from "classnames";
@@ -12,6 +13,11 @@ import { RoutesList } from "../Router";
 const SuccessPage = () => {
   const { theme } = useThemeContext();
   const isDark = theme === Theme.Dark;
+  const navigate = useNavigate();
+
+  const onGoHomeButtonClick = () => {
+    navigate(RoutesList.Home);
+  };
 
   return (
     <div>
@@ -19,11 +25,17 @@ const SuccessPage = () => {
         className={classNames(styles.containerSuccess, {[styles.containerDark]: isDark,
         })}
       >
+        <div>Email confirmed.</div>
+        Your registration is now completed
         <div
           className={classNames(styles.backBtnHome, {[styles.backHomeDark]: isDark,
           })}
         >
-          Back to home
+           <Button
+            title={"Go to home"}
+            onClick={onGoHomeButtonClick}
+            type={ButtonType.Primary}
+          />
         </div>
         <div className={classNames(styles.titleSuccess)}>
           <Title title={"Success"} />

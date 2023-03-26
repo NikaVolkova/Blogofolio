@@ -56,7 +56,6 @@ const Home = () => {
   const onTabClick = (key: TabsNames) => setActiveTab(key);
 
 
-  //TODO remove on next lesson
   const params = useParams();
   console.log("Id from url", params?.id);
 
