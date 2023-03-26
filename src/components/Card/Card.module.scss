@@ -19,6 +19,12 @@
 .iconContainer {
   display: flex;
   gap: 24px;
+  div:hover{
+    cursor: pointer;
+    svg>path{
+      fill:$primary-secondary;
+    }
+  }
 }
 .infoContainer {
   display: flex;
@@ -40,6 +46,10 @@
   font-size: 32px;
   line-height: 44px;
   color: $secondary;
+  &:hover {
+    cursor: pointer;
+    color: $primary-secondary;
+  }
 }
 .date {
   font-weight: 400;
@@ -80,7 +90,7 @@
 
 .smallContainer {
   height: 206px;
-  max-width: 354px;
+ width: 354px;
   gap:23px;
 }
 .smallImage {
@@ -89,4 +99,16 @@
 }
 .smallInfoContainer {
   gap: 24px;
+}
+.darkTitle {
+  color: $white;
+}
+.darkIconContainer {
+
+  div > svg > path {
+    fill: $white;
+  }
+}
+.darkContainer {
+  border-bottom-color: $gray;
 }

@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import Button from "../../../components/Button";
-import { ButtonType } from "../../../components/Button/Button";
-import { CloseIcon, OpenedMenu } from "../../../assets/icons";
+import { ButtonType } from "../../../utils/@globalTypes";
+import { CloseIcon, OpenedMenu, UserIcon } from "../../../assets/icons";
 import BurgerBtn from "../../../components/BurgerButton/BurgerButton";
 import UserName from "../../../components/UserName";
 import ThemeSwitcher from "../../../components/ThemeSwitcher";
@@ -11,13 +11,15 @@ import { RoutesList } from "../../Router";
 import styles from "./Header.module.scss";
 import classNames from "classnames";
 
+
 const Header = () => {
   const [isOpened, setOpened] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
+  const isLoggedIn = false;
 
-  const onClickBurgerBtn = () => {
+  const onClickMenuButton = () => {
     setOpened(!isOpened);
   };
 
@@ -31,12 +33,16 @@ const Header = () => {
         title: "Home",
         key: RoutesList.Home,
       },
+      ...(isLoggedIn
+        ?[]
+        :[
       {
         title: "Add Post",
         key: RoutesList.AddPost,
       },
+    ]),
     ],
-    []
+    [isLoggedIn]
   );
 
   return (
@@ -44,16 +50,22 @@ const Header = () => {
       <div className={styles.container}>
         <Button
           title={isOpened ? <CloseIcon /> : <OpenedMenu />}
-          onClick={onClickBurgerBtn}
+          onClick={onClickMenuButton}
           type={ButtonType.Primary}
-          className={styles.BurgerBtn}
+          className={styles.button}
         />
-        <UserName userName={"Artem Malkin"} />
+        {isLoggedIn ? (<UserName userName={"Artem Malkin"} />)
+        :(<Button 
+        title={<UserIcon/>} 
+        onClick={onAuthButtonClick} 
+        type={ButtonType.Primary}
+        className={styles.button}
+        />)}
       </div>
       {isOpened && (
         <div className={styles.menuContainer}>
           <div className={styles.actionsContainer}>
-            <UserName userName={"Artem Malkin"} />
+          {isLoggedIn &&<UserName userName={"Artem Malkin"} />}
             {navButtonsList.map(({ key, title }) => {
               return (
                 <NavLink
@@ -71,8 +83,8 @@ const Header = () => {
           <div>
             <ThemeSwitcher />
             <Button
-              title={"Sign In"}
-              onClick={onAuthButtonClick}
+              title={isLoggedIn?"Log out" :"Sign In"}
+              onClick={isLoggedIn ? () =>{}: onAuthButtonClick}
               type={ButtonType.Secondary}
               className={styles.authButton}
             />

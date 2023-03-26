@@ -23,7 +23,10 @@
   font-size: 16px;
   line-height: 24px;
   color: $secondary;
- 
+  &:hover{
+    cursor: pointer;
+        color: $primary;
+ }
 }
 
 
@@ -32,10 +35,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
 }
 .emailText {
   border: 1px solid $medium;
   padding: 40px;
+  margin-bottom: 40px;
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
@@ -50,15 +55,7 @@
   text-align: start;
   margin-bottom: 72px;
 }
-.forgotPassword {
-  font-size: 16px;
-  line-height: 20px;
-  color: $secondary;
-  font-weight: 400;
-}
-.darkThemeForgotPassword{
-  color: $white;
-}
+
 .button {
   text-align: center;
   margin-top: 48px;
