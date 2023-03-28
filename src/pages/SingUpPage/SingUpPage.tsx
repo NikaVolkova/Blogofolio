@@ -83,7 +83,18 @@ const SingUpPage= () => {
         passwordError.length === 0
       );
     }, [nameError,emailError,passwordError]);
-  
+    
+    // Используем, если не надо показывать никаких ошибок пользователю
+  // const isValid = useMemo(() => {
+  //   return (
+  //     name.length > 0 &&
+  //     email.length > 0 &&
+  //     password.length > 0 &&
+  //     confirmPassword.length > 0 &&
+  //     password === confirmPassword
+  //   );
+  // }, [name, email, password, confirmPassword]);
+
     return(
     <div>
       <div

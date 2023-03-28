@@ -1,6 +1,7 @@
-import React from "react";
-
+import React, {useEffect} from "react";
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
+import {useDispatch, useSelector } from "react-redux";
+import { AuthSelectors, getUserInfo } from "src/redux/reducers/authSlice";
 import PagesContainer from "./PagesContainer";
 import SingInPage from "./SingInPage";
 import SingUpPage from "./SingUpPage";
@@ -11,6 +12,7 @@ import Home from "./Home";
 import RegConfirmation from "./RegConfirmation";
 import NewPass from "./Newpassword/NewPass";
 import ResetPass from "./ResetPassword/ResetPass";
+
 
 export enum RoutesList {
   Home = "/",
@@ -27,7 +29,15 @@ export enum RoutesList {
 }
 
 const Router = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
+  const dispatch= useDispatch();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getUserInfo());
+    }
+  }, [isLoggedIn]);
+
   return (
     <BrowserRouter>
       <Routes>

@@ -11,3 +11,13 @@ export type SignUpUserResponse = {
   email: string;
   id: number;
 };
+export type SignInResponse = {
+  access: string;
+  refresh: string;
+};
+
+export type UserInfoResponse = {
+  username: string;
+  email: string;
+  id: number;
+};

@@ -8,7 +8,8 @@ import { ButtonType } from "../../utils/@globalTypes";
 import { Theme, useThemeContext } from "../../components/context/Theme/Context";
 import { NavLink, useNavigate } from "react-router-dom";
 import { RoutesList } from "../Router";
-
+import { useDispatch } from "react-redux";
+import { signInUser } from "src/redux/reducers/authSlice";
 
 const SingInPage= () => {
   const [email, setEmail] = useState("");
@@ -27,10 +28,21 @@ const SingInPage= () => {
   const onResetPass = () => {
     navigate(RoutesList.ResetPass);
   };
-  const navigate=useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const { theme } = useThemeContext();
   const isDark = theme === Theme.Dark;
+
+  const onSignInClick = () => {
+    dispatch(
+      signInUser({
+        data: { email, password },
+        callback: () => navigate(RoutesList.Home),
+      })
+    );
+  };
+
   useEffect(() => {
     if (email.length === 0) {
       setEmailError("Email is required field");
@@ -101,7 +113,7 @@ const SingInPage= () => {
               <Button
                 title={"Sign In"}
                 disabled={!isValid}
-                onClick={() => {}}
+                onClick={onSignInClick}
                 type={ButtonType.Primary}
               />
             </div>
@@ -110,7 +122,7 @@ const SingInPage= () => {
                 [styles.darkSingUp]: isDark,
               })}
             >
-              Don’t have an account? 
+              Don’t have an account?{" "} 
               <NavLink to={RoutesList.SignUp} className={styles.navButton}>
               Sign Up
             </NavLink>

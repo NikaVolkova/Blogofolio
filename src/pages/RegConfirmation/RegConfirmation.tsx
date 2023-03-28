@@ -16,6 +16,7 @@ const RegConfirmation = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const { uid, token } = useParams();
+    
   const onConfirmButtonClick = () => {
     if (uid && token) {
       dispatch(
