@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import { BrowserRouter, Routes, Route,Navigate } from "react-router-dom";
 import {useDispatch, useSelector } from "react-redux";
 import { AuthSelectors, getUserInfo } from "src/redux/reducers/authSlice";
+import {getMyPosts} from "src/redux/reducers/postSlice";
 import PagesContainer from "./PagesContainer";
 import SingInPage from "./SingInPage";
 import SingUpPage from "./SingUpPage";
@@ -35,6 +36,7 @@ const Router = () => {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(getUserInfo());
+      dispatch(getMyPosts());
     }
   }, [isLoggedIn]);
 

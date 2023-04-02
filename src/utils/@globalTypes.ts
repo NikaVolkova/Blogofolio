@@ -22,3 +22,10 @@ export type CardType = {
     Secondary = "Secondary",
     Error = "Error",
   }
+
+  export enum TabsNames {
+    All,
+    MyPosts,
+    Popular,
+    Favourites,
+  }

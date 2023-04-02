@@ -1,35 +1,43 @@
-import React, {useEffect, useState,} from "react";
+import React, {useEffect, useState,useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
 import Title from "../../components/Title";
 import Tabs from "../../components/Tabs";
 import CardsList from "../../components/CardsList";
-
-
-import { TabsNames } from "../../components/Tabs/type";
+import { TabsNames } from "src/utils/@globalTypes";
 import {Theme, useThemeContext} from "../../components/context/Theme/Context";
 import ThemeSwitcher from "../../components/ThemeSwitcher";
 import { getAllPosts, PostSelectors } from "../../redux/reducers/postSlice";
 import SelectedPostModal from "./SelectedPostModal";
+import { AuthSelectors } from "src/redux/reducers/authSlice";
 
-const TABS_LIST = [
-  {
-    title: "All",
-    disabled: false,
-    key: TabsNames.ALL,
-  },
-  {
-    title: "My favorites",
-    disabled: true,
-    key: TabsNames.FAVORITES,
-  },
-  {
-    title: "Popular",
-    disabled: false,
-    key: TabsNames.POPULAR,
-  },
-];
+const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
+const TABS_LIST = useMemo(
+  () => [
+    {
+      title: "All",
+      disabled: false,
+      key: TabsNames.All,
+    },
+    {
+      title: "My Posts",
+      disabled: !isLoggedIn,
+      key: TabsNames.MyPosts,
+    },
+    {
+      title: "Popular",
+      disabled: false,
+      key: TabsNames.Popular,
+    },
+    {
+      title: "Favourites",
+      disabled: false,
+      key: TabsNames.Favourites,
+    },
+  ],
+  [isLoggedIn]
+);
+
 
 
 export const MOCK_CARD2 = {
@@ -52,7 +60,7 @@ const Home = () => {
  
   const {theme} =useThemeContext();
   const dispatch = useDispatch();
-  const [activeTab, setActiveTab] = useState(TabsNames.ALL);
+  const [activeTab, setActiveTab] = useState(TabsNames.All);
   const onTabClick = (key: TabsNames) => setActiveTab(key);
 
 
@@ -64,13 +72,33 @@ const Home = () => {
   useEffect(() => {
     dispatch(getAllPosts());
   }, []);
+  const favouriteList = useSelector(PostSelectors.getLikedPosts);
+   // const myPostsList = useSelector(PostSelectors.getMyPosts);
+   // const addPostList = useSelector(PostSelectors.getAddPost);
 
+  const getCurrentList = () => {
+    switch (activeTab) {
+      case TabsNames.Popular:
+        return favouriteList;
+      case TabsNames.MyPosts:
+        // return myPostsList; 
+        //TODO дописать сюда мои посты из ДЗ на 30/03/2023
+        return [];
+      case TabsNames.Favourites:
+         //return addPostList;
+        //TODO дописать сюда посты из тех, которые сохранены в избранное
+        return [];
+      case TabsNames.All:
+      default:
+        return postsList;
+    }
+  };
   return (
     <div>
 
       <Title title={"Blog"} />
       <Tabs tabsList={TABS_LIST} activeTab={activeTab} onClick={onTabClick}/>
-      <CardsList cardsList={postsList} />
+      <CardsList cardsList={getCurrentList()} />
       <SelectedPostModal/>
     </div>
   );

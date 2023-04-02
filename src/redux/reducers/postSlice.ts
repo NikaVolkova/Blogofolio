@@ -11,6 +11,7 @@ type InitialType={
   addPost:CardType[];
   postsList: CardListType;
   singlePost: CardType | null;
+  myPosts: CardListType;
 };
 
 
@@ -27,6 +28,7 @@ const initialState: InitialType = {
   addPost:[],
   postsList: [],
   singlePost:null,
+  myPosts: [],
 };
 
  const postSlice = createSlice({
@@ -85,11 +87,15 @@ const initialState: InitialType = {
       } else{
         state.addPost.splice(addPostIndex,1);
       }
-    }
+    },
+    getMyPosts: (_, __:PayloadAction<undefined>)=>{},
+    setMyPosts: (state, action: PayloadAction<CardListType>) => {
+      state.myPosts = action.payload;
+    },
   },
 });
 
-export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost, setSelectedPost,setAddPost, setPostVisibility } = postSlice.actions;
+export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost, setSelectedPost,setAddPost, setPostVisibility,getMyPosts,setMyPosts } = postSlice.actions;
 
 
 export const postName = postSlice.name;
@@ -104,7 +110,8 @@ export const PostSelectors = {
     state.posts.isVisibleSelectedModal,
   getAddPost:(state: RootState) => state.posts.addPost,
   getAllPosts: (state: RootState) => state.posts.postsList,
-  getSinglePost:(state:RootState)=>state.posts.singlePost,  
+  getSinglePost:(state:RootState)=>state.posts.singlePost,
+  getMyPosts: (state:RootState)=>state.posts.myPosts,  
 };
 
 

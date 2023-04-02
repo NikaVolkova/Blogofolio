@@ -61,7 +61,7 @@ function* signInUserWorker(action: PayloadAction<SignInUserPayload>) {
 
 function* getUserInfoWorker() {
   const { ok, problem, data }: ApiResponse<UserInfoResponse> =
-    yield callCheckingAuth(API.getUserInfo);
+    yield callCheckingAuth(API.getUserInfo, '10', 12, {}, []);
   if (ok && data) {
     yield put(setUserInfo(data));
   } else {
@@ -73,6 +73,7 @@ function* logoutUserWorker() {
   localStorage.removeItem(ACCESS_TOKEN_KEY);
   localStorage.removeItem(REFRESH_TOKEN_KEY);
   yield put(setLoggedIn(false));
+  yield put(setUserInfo(null));
 }
 
 export default function* authSaga() {
