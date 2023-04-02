@@ -1,7 +1,7 @@
 import React, { FC } from "react";
 import { CardListType, CardSize } from "../../utils/@globalTypes";
 import Card from "../Card";
-import EmptyState from "src/components/EmptyState";
+import EmptyState from "../EmptyState/EmptyState";
 import styles from "./CardsList.module.scss";
 
 type CardsListProps = {
