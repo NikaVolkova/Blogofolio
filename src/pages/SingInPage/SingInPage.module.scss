@@ -14,6 +14,10 @@
   line-height: 24px;
   color: $secondary;
   margin-bottom: 32px;
+  &:hover{
+    cursor: pointer;
+        color: $primary;
+ }
 }
 .backBtnHomeDark{
   margin-left: 40px;
@@ -30,10 +34,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
 }
 .inputContainer {
   border: 1px solid $medium;
   padding: 40px;
+  margin-bottom: 40px;
 }
 .inputContainerDark{
   border-color: $gray;
