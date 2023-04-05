@@ -12,3 +12,4 @@ export {AddBookmarkIcon} from './AddBookmarkIcon';
 
 export {UserIcon} from './UserIcon';
 export { NoContentIcon } from "./NoContentIcon";
+export { SearchIcon } from "./SearchIcon";

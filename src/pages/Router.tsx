@@ -13,7 +13,7 @@ import Home from "./Home";
 import RegConfirmation from "./RegConfirmation";
 import NewPass from "./Newpassword/NewPass";
 import ResetPass from "./ResetPassword/ResetPass";
-
+import Search from "src/pages/Search";
 
 export enum RoutesList {
   Home = "/",
@@ -54,6 +54,7 @@ const Router = () => {
           <Route path={RoutesList.Default } element={<div>404 NOT FOUND</div>}/>
           <Route path={RoutesList.NewPass} element={<NewPass />} />
           <Route path={RoutesList.ResetPass} element={<ResetPass />} />
+          <Route path={RoutesList.Search} element={<Search />} />
         </Route>
       </Routes>
     </BrowserRouter>

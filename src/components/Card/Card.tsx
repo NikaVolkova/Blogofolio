@@ -8,6 +8,7 @@ import { DislikeIcon } from "../../assets/icons/DislikeIcon";
 import { LikeIcon } from "../../assets/icons/LikeIcon";
 import { MoreIcon } from "../../assets/icons/MoreIcon";
 import { AddBookmarkIcon } from "../../assets/icons";
+import { SearchIcon } from "../../assets/icons";
 import { useNavigate } from "react-router-dom";
 import { CardSize } from "../../utils/@globalTypes";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +33,7 @@ const Card: FC<CardProps> = ({ card, size }) => {
   const isDark = theme === Theme.Dark;
   const isMedium = size === CardSize.Medium;
   const isSmall = size === CardSize.Small;
-
+  const isSearch = size === CardSize.Search;
   
   const onStatusClick = (status: LikeStatus) => () => {
     dispatch(setStatus({ status, card }));
@@ -60,12 +61,14 @@ const Card: FC<CardProps> = ({ card, size }) => {
         [styles.mediumContainer]: isMedium,
         [styles.smallContainer]: isSmall,
         [styles.darkContainer]: isDark,
+        [styles.searchContainer]: isSearch,
       })}
     >
       <div
         className={classNames(styles.infoContainer, {
           [styles.mediumInfoContainer]: isMedium,
           [styles.smallInfoContainer]: isSmall,
+          [styles.searchInfoContainer]: isSearch,
         })}
       >
         <div className={styles.mainInfoContainer}>
@@ -73,7 +76,7 @@ const Card: FC<CardProps> = ({ card, size }) => {
             <div className={styles.date}>{date}</div>
             <div
               className={classNames(styles.title, {
-                [styles.mediumTitle]: isMedium || isSmall,
+                [styles.mediumTitle]: isMedium || isSmall || isSearch,
                 [styles.darkContainer]: isDark,
               })}
               onClick={onTitleClick}
@@ -87,7 +90,7 @@ const Card: FC<CardProps> = ({ card, size }) => {
           src={image}
           className={classNames(styles.image, {
             [styles.mediumImage]: isMedium,
-            [styles.smallImage]: isSmall,
+            [styles.smallImage]: isSmall || isSearch,
           })}
         />
       </div>

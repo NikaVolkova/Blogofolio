@@ -1,7 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CardListType, CardType } from "../../utils/@globalTypes";
+import { CardListType, CardType } from "src/utils/@globalTypes";
 import { RootState } from "../store";
-
+import {
+  GetAllPostsPayload,
+  SetAllPostsPayload,
+} from "src/redux/reducers/@types";
 
 type InitialType={
   selectedPost: CardType | null;
@@ -12,6 +15,9 @@ type InitialType={
   postsList: CardListType;
   singlePost: CardType | null;
   myPosts: CardListType;
+  searchedPosts: CardListType;
+  searchValue: string;
+  postsCount: number;
 };
 
 
@@ -29,15 +35,22 @@ const initialState: InitialType = {
   postsList: [],
   singlePost:null,
   myPosts: [],
+  searchedPosts: [],
+  searchValue: "",
+  postsCount: 0,
 };
 
  const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    getAllPosts: (_, __: PayloadAction<undefined>) => {},
-    setAllPosts: (state, action: PayloadAction<CardListType>) => {
-      state.postsList = action.payload;
+    getAllPosts: (_, __: PayloadAction<GetAllPostsPayload>) => {},
+    setAllPosts: (
+      state,
+      { payload: { postsCount, cardList } }: PayloadAction<SetAllPostsPayload>
+    ) => {
+      state.postsList = cardList;
+      state.postsCount = postsCount;
     },
     getSinglePost:(_, __: PayloadAction<string>)=>{},
     setSinglePost:(state, action: PayloadAction<CardType | null>) => {
@@ -92,10 +105,18 @@ const initialState: InitialType = {
     setMyPosts: (state, action: PayloadAction<CardListType>) => {
       state.myPosts = action.payload;
     },
+    getSearchedPosts: (state, action: PayloadAction<string>) => {
+      state.searchValue = action.payload;
+    },
+    setSearchedPosts: (state, action: PayloadAction<CardListType>) => {
+      state.searchedPosts = action.payload;
+    },
   },
 });
 
-export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost, setSelectedPost,setAddPost, setPostVisibility,getMyPosts,setMyPosts } = postSlice.actions;
+export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost,
+   setSelectedPost,setAddPost, setPostVisibility,getMyPosts,setMyPosts,
+   getSearchedPosts,  setSearchedPosts } = postSlice.actions;
 
 
 export const postName = postSlice.name;
@@ -111,7 +132,10 @@ export const PostSelectors = {
   getAddPost:(state: RootState) => state.posts.addPost,
   getAllPosts: (state: RootState) => state.posts.postsList,
   getSinglePost:(state:RootState)=>state.posts.singlePost,
-  getMyPosts: (state:RootState)=>state.posts.myPosts,  
+  getMyPosts: (state:RootState)=>state.posts.myPosts,
+  getSearchedPosts: (state: RootState) => state.posts.searchedPosts,
+  getSearchValue: (state: RootState) => state.posts.searchValue,
+  getAllPostsCount: (state: RootState) => state.posts.postsCount,  
 };
 
 

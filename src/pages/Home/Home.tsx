@@ -1,42 +1,49 @@
 import React, {useEffect, useState,useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ReactPaginate from "react-paginate";
+import classNames from "classnames";
+import styles from "./Home.module.scss";
 import { useParams } from "react-router-dom";
 import Title from "../../components/Title";
 import Tabs from "../../components/Tabs";
 import CardsList from "../../components/CardsList";
-import { TabsNames } from "src/utils/@globalTypes";
+import { TabsNames, ButtonType } from "src/utils/@globalTypes";
 import {Theme, useThemeContext} from "../../components/context/Theme/Context";
 import ThemeSwitcher from "../../components/ThemeSwitcher";
-import { getAllPosts, PostSelectors } from "../../redux/reducers/postSlice";
+import { getAllPosts, PostSelectors } from "src/redux/reducers/postSlice";
 import SelectedPostModal from "./SelectedPostModal";
 import { AuthSelectors } from "src/redux/reducers/authSlice";
+import { PER_PAGE } from "src/utils/constants";
+import Button from "src/components/Button";
 
-const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
-const TABS_LIST = useMemo(
-  () => [
-    {
-      title: "All",
-      disabled: false,
-      key: TabsNames.All,
-    },
-    {
-      title: "My Posts",
-      disabled: !isLoggedIn,
-      key: TabsNames.MyPosts,
-    },
-    {
-      title: "Popular",
-      disabled: false,
-      key: TabsNames.Popular,
-    },
-    {
-      title: "Favourites",
-      disabled: false,
-      key: TabsNames.Favourites,
-    },
-  ],
-  [isLoggedIn]
-);
+enum Order {
+  Date = "date",
+  Title = "title",
+}
+
+
+const TABS_LIST = [
+  {
+    title: "All",
+    disabled: false,
+    key: TabsNames.All,
+  },
+  {
+    title: "My Posts",
+    disabled: false,
+    key: TabsNames.MyPosts,
+  },
+  {
+    title: "Popular",
+    disabled: false,
+    key: TabsNames.Popular,
+  },
+  {
+    title: "Favourites",
+    disabled: false,
+    key: TabsNames.Favourites,
+  },
+];
 
 
 
@@ -61,8 +68,22 @@ const Home = () => {
   const {theme} =useThemeContext();
   const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState(TabsNames.All);
-  const onTabClick = (key: TabsNames) => setActiveTab(key);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [ordering, setOrdering] = useState("");
 
+
+  const onTabClick = (key: TabsNames) => () => {
+    setActiveTab(key);
+    setCurrentPage(1);
+  };
+  const onFilterButtonClick = (order: Order) => () => {
+    if (order === ordering) {
+      setOrdering("");
+      setCurrentPage(1);
+    } else {
+      setOrdering(order);
+    }
+  };
 
   const params = useParams();
   console.log("Id from url", params?.id);
@@ -70,25 +91,28 @@ const Home = () => {
   const postsList = useSelector(PostSelectors.getAllPosts);
 
   useEffect(() => {
-    dispatch(getAllPosts());
-  }, []);
+    const offset = PER_PAGE * (currentPage - 1);
+    dispatch(getAllPosts({ offset, ordering }));
+  }, [currentPage, ordering]);
+
+  const onPageChange = ({ selected }: { selected: number }) => {
+    setCurrentPage(selected + 1);
+  };
   const favouriteList = useSelector(PostSelectors.getLikedPosts);
-   // const myPostsList = useSelector(PostSelectors.getMyPosts);
-   // const addPostList = useSelector(PostSelectors.getAddPost);
+   const myPosts = useSelector(PostSelectors.getMyPosts);
+   const addPostList = useSelector(PostSelectors.getAddPost);
+   const postsCount = useSelector(PostSelectors.getAllPostsCount);
+   const pagesCount = Math.ceil(postsCount / PER_PAGE);
 
   const getCurrentList = () => {
     switch (activeTab) {
       case TabsNames.Popular:
         return favouriteList;
       case TabsNames.MyPosts:
-        // return myPostsList; 
-        //TODO дописать сюда мои посты из ДЗ на 30/03/2023
-        return [];
+        return myPosts; 
       case TabsNames.Favourites:
-         //return addPostList;
-        //TODO дописать сюда посты из тех, которые сохранены в избранное
-        return [];
-      case TabsNames.All:
+        return addPostList;
+        case TabsNames.All:
       default:
         return postsList;
     }
@@ -98,7 +122,46 @@ const Home = () => {
 
       <Title title={"Blog"} />
       <Tabs tabsList={TABS_LIST} activeTab={activeTab} onClick={onTabClick}/>
+
+      <div className={styles.filterButtons}>
+        <Button  title={"Date Filter"}
+          onClick={onFilterButtonClick(Order.Date)}
+          type={ButtonType.Secondary}
+          className={classNames(styles.filter, {
+            [styles.activeButton]: ordering === Order.Date,
+          })}
+        />
+        <Button title={"Title Filter"}
+          onClick={onFilterButtonClick(Order.Title)}
+          type={ButtonType.Secondary}
+          className={classNames(styles.filter, {
+            [styles.activeButton]: ordering === Order.Title,
+          })}
+        />
+      </div>
       <CardsList cardsList={getCurrentList()} />
+      {activeTab !== TabsNames.Popular &&
+        activeTab !== TabsNames.Favourites && (
+          <ReactPaginate
+            pageCount={pagesCount}
+            onPageChange={onPageChange}
+            containerClassName={styles.pagesContainer}
+            pageClassName={styles.pageNumber}
+            breakClassName={styles.pageNumber}
+            breakLinkClassName={styles.linkPage}
+            activeLinkClassName={styles.linkPage}
+            pageLinkClassName={styles.linkPage}
+            activeClassName={styles.activePageNumber}
+            nextClassName={classNames(styles.arrowButton, {
+              [styles.blockedButton]: currentPage === pagesCount,
+            })}
+            previousClassName={classNames(styles.arrowButton, {
+              [styles.blockedButton]: currentPage === 1,
+            })}
+            previousLinkClassName={styles.linkPage}
+            nextLinkClassName={styles.linkPage}
+          />
+        )}
       <SelectedPostModal/>
     </div>
   );

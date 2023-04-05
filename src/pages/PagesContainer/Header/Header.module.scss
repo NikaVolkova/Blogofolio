@@ -9,15 +9,19 @@
   top: 0;
   width: 100%;
 }
-
+.infoContainer {
+  display: flex;
+}
 .button {
   height: 84px;
   width: 84px;
-  padding: 30px;
+  padding: 28px;
   display: flex;
   justify-content: center;
   align-items: center;
   box-sizing: border-box;
+  border-left: 1px solid $primary-secondary;
+  border-right: 1px solid $primary-secondary;
   svg{
     width: 24px !important;
   }
@@ -35,6 +39,7 @@
 }
 .authButton {
   height: 84px;
+  width: 84px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,4 +66,13 @@
 }
 .activeNavButton {
   color: $primary;
+}
+.input {
+  min-height: 84px;
+  flex: 1;
+  background-color: $primary-secondary;
+  color: $white;
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
 }

@@ -1,12 +1,13 @@
 import { create } from "apisauce";
 import { ActivateUserData, UserPayloadData, SignInUserData } from "../reducers/@types";
+import { PER_PAGE } from "src/utils/constants";
 
 const API = create({
   baseURL: "https://studapi.teachmeskills.by",
 });
 
-const getPosts = () => {
-  return API.get("/blog/posts/?limit=12");
+const getPosts = (offset: number, search?: string, ordering?: string) => {
+  return API.get("/blog/posts/", { limit: PER_PAGE, search, offset,ordering });
 };
 
 const getSinglePost = (id: string) => {
@@ -39,12 +40,9 @@ const verifyToken = (token: string) => {
   return API.post("/auth/jwt/verify/", { token });
 };
 const getMyPosts= (token: string) => {
-  return API.get(
-      "/blog/posts/my_posts/",
+  return API.get("/blog/posts/my_posts/",
       {},
-      {
-          headers: {
-              Authorization: `Bearer ${token}`,
+      {headers: { Authorization: `Bearer ${token}`,
           },
       }
   );
