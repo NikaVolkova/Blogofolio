@@ -15,12 +15,12 @@ import SelectedPostModal from "./SelectedPostModal";
 import { AuthSelectors } from "src/redux/reducers/authSlice";
 import { PER_PAGE } from "src/utils/constants";
 import Button from "src/components/Button";
+import Loader from "src/components/Loader";
 
 enum Order {
   Date = "date",
   Title = "title",
 }
-
 
 const TABS_LIST = [
   {
@@ -79,8 +79,8 @@ const Home = () => {
   const onFilterButtonClick = (order: Order) => () => {
     if (order === ordering) {
       setOrdering("");
-      setCurrentPage(1);
-    } else {
+      setCurrentPage(1);} 
+      else {
       setOrdering(order);
     }
   };
@@ -103,6 +103,7 @@ const Home = () => {
    const addPostList = useSelector(PostSelectors.getAddPost);
    const postsCount = useSelector(PostSelectors.getAllPostsCount);
    const pagesCount = Math.ceil(postsCount / PER_PAGE);
+   const isLoading = useSelector(PostSelectors.getAllPostsLoading);
 
   const getCurrentList = () => {
     switch (activeTab) {
@@ -139,6 +140,11 @@ const Home = () => {
           })}
         />
       </div>
+
+{isLoading ? (
+  <Loader />
+    ) : (
+    <>  
       <CardsList cardsList={getCurrentList()} />
       {activeTab !== TabsNames.Popular &&
         activeTab !== TabsNames.Favourites && (
@@ -162,6 +168,8 @@ const Home = () => {
             nextLinkClassName={styles.linkPage}
           />
         )}
+      </>
+    )}
       <SelectedPostModal/>
     </div>
   );

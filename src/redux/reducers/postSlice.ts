@@ -4,6 +4,9 @@ import { RootState } from "../store";
 import {
   GetAllPostsPayload,
   SetAllPostsPayload,
+  AddPostPayload,
+  GetSearchPostsPayload,
+  SetSearchedPostsPayload,
 } from "src/redux/reducers/@types";
 
 type InitialType={
@@ -18,6 +21,8 @@ type InitialType={
   searchedPosts: CardListType;
   searchValue: string;
   postsCount: number;
+  searchedPostsCount: number;
+  isAllPostsLoading: boolean;
 };
 
 
@@ -38,6 +43,8 @@ const initialState: InitialType = {
   searchedPosts: [],
   searchValue: "",
   postsCount: 0,
+  searchedPostsCount: 0,
+  isAllPostsLoading: false,
 };
 
  const postSlice = createSlice({
@@ -51,6 +58,9 @@ const initialState: InitialType = {
     ) => {
       state.postsList = cardList;
       state.postsCount = postsCount;
+    },
+    setAllPostsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isAllPostsLoading = action.payload;
     },
     getSinglePost:(_, __: PayloadAction<string>)=>{},
     setSinglePost:(state, action: PayloadAction<CardType | null>) => {
@@ -105,18 +115,28 @@ const initialState: InitialType = {
     setMyPosts: (state, action: PayloadAction<CardListType>) => {
       state.myPosts = action.payload;
     },
-    getSearchedPosts: (state, action: PayloadAction<string>) => {
-      state.searchValue = action.payload;
+    getSearchedPosts: (state, action: PayloadAction<GetSearchPostsPayload>) => {
+      state.searchValue = action.payload.searchValue;
     },
-    setSearchedPosts: (state, action: PayloadAction<CardListType>) => {
-      state.searchedPosts = action.payload;
+    setSearchedPosts: (
+      state,
+      action: PayloadAction<SetSearchedPostsPayload>
+    ) => {
+      const { isOverwrite, cardList, postsCount } = action.payload;
+      state.searchedPostsCount = postsCount;
+      if (isOverwrite) {
+        state.searchedPosts = cardList;
+      } else {
+        state.searchedPosts.push(...cardList);
+      }
     },
+    addNewPost: (_, __: PayloadAction<AddPostPayload>) => {},
   },
 });
 
 export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost,
    setSelectedPost,setAddPost, setPostVisibility,getMyPosts,setMyPosts,
-   getSearchedPosts,  setSearchedPosts } = postSlice.actions;
+   getSearchedPosts,  setSearchedPosts,addNewPost,setAllPostsLoading } = postSlice.actions;
 
 
 export const postName = postSlice.name;
@@ -136,6 +156,8 @@ export const PostSelectors = {
   getSearchedPosts: (state: RootState) => state.posts.searchedPosts,
   getSearchValue: (state: RootState) => state.posts.searchValue,
   getAllPostsCount: (state: RootState) => state.posts.postsCount,  
+  getAllPostsLoading: (state: RootState) => state.posts.isAllPostsLoading,
+  getSearchedPostsCount: (state: RootState) => state.posts.searchedPostsCount,
 };
 
 

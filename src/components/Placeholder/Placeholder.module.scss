@@ -1,11 +1,12 @@
 @import "src/assets/colors.scss";
-
+@import "src/assets/mixins";
 .container{
     display: contents;
    gap: 124px;
    margin-bottom: 20px;
 }
 .title{
+    @include title();
     width: 35px;
     height: 20px;
     left: 1px;
@@ -13,10 +14,6 @@
     padding-top: 56px;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 20px;
-    gap: 8px;
     color: $secondary;
 }
 .input{

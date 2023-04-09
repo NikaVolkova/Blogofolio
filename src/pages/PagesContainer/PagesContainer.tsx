@@ -3,7 +3,7 @@ import { Outlet} from "react-router-dom";
 import classNames from "classnames";
 import Home from "../Home";
 import styles from "./PagesContainer.module.scss";
-import { Theme, useThemeContext } from "../../components/context/Theme/Context";
+import { Theme, useThemeContext } from "src/components/context/Theme/Context";
 import Header from "./Header";
 
 
@@ -16,6 +16,7 @@ const PagesContainer = () => {
       className={classNames(styles.container, {
         [styles.darkContainer]: theme === Theme.Dark,
       })}
+      id="scrollableDiv"
     >
       <Header />
            <div className={styles.mainInfo}>

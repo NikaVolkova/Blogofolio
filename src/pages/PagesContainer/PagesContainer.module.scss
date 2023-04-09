@@ -7,6 +7,9 @@
   overflow: scroll;
   background-color: $extra-light;
 }
+.searchContainer {
+  overflow: unset;
+}
 
 .mainInfo {
   flex: 1;

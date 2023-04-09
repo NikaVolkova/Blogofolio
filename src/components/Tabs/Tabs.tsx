@@ -1,4 +1,4 @@
-import React, { FC, MouseEventHandler, useState,useMemo } from "react";
+import React, { FC, MouseEventHandler, useMemo } from "react";
 import classNames from "classnames";
 import styles from './Tabs.module.scss';
 import {TabsNames, TabsProps} from "./type";
@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { AuthSelectors } from "src/redux/reducers/authSlice";
 
 const Tabs: FC<TabsProps> = ({ tabsList, activeTab, onClick }) => {
-    const onTabClick = (key: TabsNames) => () => onClick(key);
+
   const {theme} =useThemeContext();
   const isLoggedIn = useSelector(AuthSelectors.getLoggedIn);
 
@@ -48,7 +48,7 @@ return (
         [styles.activeTab]:activeTab===tab.key,
         [styles.disabled]:tab.disabled,
     })}
-        onClick={tab.disabled?undefined: onTabClick(tab.key)}
+        onClick={tab.disabled?undefined: onClick(tab.key)}
         >{tab.title}</div>;
      })}
     </div>
