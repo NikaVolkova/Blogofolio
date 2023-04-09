@@ -1,27 +1,56 @@
-import React, { FC } from "react";
-
+import React, { FC, useEffect } from "react";
+import { CardType } from "../../utils/@globalTypes";
 import {ContentProps} from "./types";
 import styles from "./ContentPage.module.scss";
-
+import { Theme, useThemeContext } from "../../components/context/Theme/Context";
 import { BookmarkIcon} from "../../assets/icons/BookmarkIcon";
 import { DislikeIcon } from "../../assets/icons/DislikeIcon";
 import { LikeIcon } from "../../assets/icons/LikeIcon";
+import classNames from "classnames";
 
-
-const ContentPage: FC<ContentProps> = ({content}) => {
-const { title,image,text} = content;
+type PostProps = {
+  post: CardType;
+};
+const ContentPage: FC<PostProps> = ({post}) => {
+const { title,image,text, id} = post;
+const { theme } = useThemeContext();
 return(
 <div>
     <div className={styles.wraper}>
         <div className={styles.navigation}>
-         <div className={styles.anchorНome}>Home</div>
+         <div className={styles.anchorНome}>
+         <div
+className={classNames (styles.anchorНome, {
+[styles.darkAnchorНome]: theme === Theme.Dark,
+})}
+>
+Home
+</div>
+
+         </div>
          <div className={styles.pipeline}>|</div>
-         <div className={styles.postText}>Post 14278</div>
+         <div className={styles.postText}>Post {id}</div>
         </div>
               <div className={styles.contentFilling}>
-               <div className={styles.header}>{title}</div>
+               <div className={styles.header}>
+               <div className={classNames(styles.title, {
+              [styles.darkTitle]: theme === Theme.Dark,
+              })}
+               >
+             {title}
+            </div>
+
+                </div>
                <img src={image} className={styles.picture}></img>
-               <div className={styles.textPost}>{text}</div>
+               <div className={styles.textPost}>
+               <div className={classNames(styles.textPost, {
+              [styles.darkText]: theme === Theme.Dark,
+              })}
+              >
+            {text}
+             </div>
+
+                </div>
               </div>
             <div className={styles.icons} >
               <div className={styles.leftIcons}>

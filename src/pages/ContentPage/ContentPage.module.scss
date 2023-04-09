@@ -26,6 +26,9 @@ font-size: 16px;
 line-height: 24px;
 color:$secondary;
 }
+.darkAnchorНome{
+    background-color: $secondary;
+}
 .pipeline{
 width: 7px;
 height: 24px;
@@ -133,3 +136,9 @@ gap: 72px;
             }
             }
         }
+        .darkTitle {
+            color: $white;
+          }
+          .darkText{
+            color: $white;
+          }  

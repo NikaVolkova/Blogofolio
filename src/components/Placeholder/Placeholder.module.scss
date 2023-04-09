@@ -1,10 +1,12 @@
 @import "src/assets/colors.scss";
-
+@import "src/assets/mixins";
 .container{
     display: contents;
    gap: 124px;
+   margin-bottom: 20px;
 }
 .title{
+    @include title();
     width: 35px;
     height: 20px;
     left: 1px;
@@ -12,10 +14,6 @@
     padding-top: 56px;
     font-family: 'Inter';
     font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    line-height: 20px;
-    gap: 8px;
     color: $secondary;
 }
 .input{
@@ -23,11 +21,12 @@
     height: 56px;
     top: 28px;
     background: $white;
-    border-radius: 2px;
+    box-sizing: border-box;
+    border: 2px solid transparent;
     &:hover{
         background: $white;
-        border: 2px solid $medium;
-        border-radius: 2px;
+        outline: none;
+    border: 2px solid $medium;
         cursor: pointer;
         color: $primary;
      }
@@ -43,6 +42,7 @@
     bottom: 79.97%;
     background: $light;
     border-radius: 2px;
+    cursor: not-allowed;
     &:hover{
         cursor: not-allowed;
         color: $gray;}

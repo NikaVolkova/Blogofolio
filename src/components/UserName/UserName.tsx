@@ -1,10 +1,11 @@
-import React,{FC} from "react";
+import React,{FC, ReactNode} from "react";
 import  styles from "./UserName.module.scss";
+import {UserInfoResponse} from "../../redux/sagas/@types";
 
 export type UserNameProps={
     userName:string;
 };
-const UserBox:FC<UserNameProps> = ({userName})=>{
+const UserBox:FC<UserNameProps> = ({userName })=>{
     
     return(    
     <div className={styles.userSpane}>

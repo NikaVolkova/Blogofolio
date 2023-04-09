@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CardType } from "../../components/Card";
+import { CardListType, CardType } from "src/utils/@globalTypes";
 import { RootState } from "../store";
-
+import {
+  GetAllPostsPayload,
+  SetAllPostsPayload,
+  AddPostPayload,
+  GetSearchPostsPayload,
+  SetSearchedPostsPayload,
+} from "src/redux/reducers/@types";
 
 type InitialType={
   selectedPost: CardType | null;
@@ -9,7 +15,14 @@ type InitialType={
   likedPosts: CardType[];
   dislikedPosts: CardType[];
   addPost:CardType[];
- 
+  postsList: CardListType;
+  singlePost: CardType | null;
+  myPosts: CardListType;
+  searchedPosts: CardListType;
+  searchValue: string;
+  postsCount: number;
+  searchedPostsCount: number;
+  isAllPostsLoading: boolean;
 };
 
 
@@ -24,12 +37,35 @@ const initialState: InitialType = {
   likedPosts: [],
   dislikedPosts: [],
   addPost:[],
+  postsList: [],
+  singlePost:null,
+  myPosts: [],
+  searchedPosts: [],
+  searchValue: "",
+  postsCount: 0,
+  searchedPostsCount: 0,
+  isAllPostsLoading: false,
 };
 
  const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
+    getAllPosts: (_, __: PayloadAction<GetAllPostsPayload>) => {},
+    setAllPosts: (
+      state,
+      { payload: { postsCount, cardList } }: PayloadAction<SetAllPostsPayload>
+    ) => {
+      state.postsList = cardList;
+      state.postsCount = postsCount;
+    },
+    setAllPostsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isAllPostsLoading = action.payload;
+    },
+    getSinglePost:(_, __: PayloadAction<string>)=>{},
+    setSinglePost:(state, action: PayloadAction<CardType | null>) => {
+      state.singlePost = action.payload;
+    },
     setSelectedPost: (state, action: PayloadAction<CardType | null>) => {
       state.selectedPost = action.payload;
     }, 
@@ -74,11 +110,33 @@ const initialState: InitialType = {
       } else{
         state.addPost.splice(addPostIndex,1);
       }
-    }
+    },
+    getMyPosts: (_, __:PayloadAction<undefined>)=>{},
+    setMyPosts: (state, action: PayloadAction<CardListType>) => {
+      state.myPosts = action.payload;
+    },
+    getSearchedPosts: (state, action: PayloadAction<GetSearchPostsPayload>) => {
+      state.searchValue = action.payload.searchValue;
+    },
+    setSearchedPosts: (
+      state,
+      action: PayloadAction<SetSearchedPostsPayload>
+    ) => {
+      const { isOverwrite, cardList, postsCount } = action.payload;
+      state.searchedPostsCount = postsCount;
+      if (isOverwrite) {
+        state.searchedPosts = cardList;
+      } else {
+        state.searchedPosts.push(...cardList);
+      }
+    },
+    addNewPost: (_, __: PayloadAction<AddPostPayload>) => {},
   },
 });
 
-export const { setStatus,setSelectedPost,setAddPost, setPostVisibility } = postSlice.actions;
+export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost,
+   setSelectedPost,setAddPost, setPostVisibility,getMyPosts,setMyPosts,
+   getSearchedPosts,  setSearchedPosts,addNewPost,setAllPostsLoading } = postSlice.actions;
 
 
 export const postName = postSlice.name;
@@ -91,7 +149,15 @@ export const PostSelectors = {
   getSelectedPost: (state: RootState) => state.posts.selectedPost,
   getVisibleSelectedModal: (state: RootState) =>
     state.posts.isVisibleSelectedModal,
-  getAddPost:(state: RootState) => state.posts.addPost,  
+  getAddPost:(state: RootState) => state.posts.addPost,
+  getAllPosts: (state: RootState) => state.posts.postsList,
+  getSinglePost:(state:RootState)=>state.posts.singlePost,
+  getMyPosts: (state:RootState)=>state.posts.myPosts,
+  getSearchedPosts: (state: RootState) => state.posts.searchedPosts,
+  getSearchValue: (state: RootState) => state.posts.searchValue,
+  getAllPostsCount: (state: RootState) => state.posts.postsCount,  
+  getAllPostsLoading: (state: RootState) => state.posts.isAllPostsLoading,
+  getSearchedPostsCount: (state: RootState) => state.posts.searchedPostsCount,
 };
 
 
