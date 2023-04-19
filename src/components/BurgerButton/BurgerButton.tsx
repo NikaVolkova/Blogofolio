@@ -3,10 +3,9 @@ import classNames from "classnames";
 import {OpenedMenu, CloseIcon} from "../../assets/icons";
 import styles from "./BurgerButton.module.scss";
 import Button from "../Button";
+import { ButtonType } from "../../utils/@globalTypes";
 
-enum ButtonType{
-    Primary="primary",
-   }
+
 
  enum BurgerButtonState{
     IsActive="isActive",

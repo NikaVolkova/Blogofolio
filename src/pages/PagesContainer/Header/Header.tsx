@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import Button from "../../../components/Button";
-import { ButtonType } from "../../../components/Button/Button";
+import { ButtonType } from "../../../utils/@globalTypes";
 import { CloseIcon, OpenedMenu, UserIcon } from "../../../assets/icons";
 import BurgerBtn from "../../../components/BurgerButton/BurgerButton";
 import UserName from "../../../components/UserName";
