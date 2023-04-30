@@ -1,14 +1,15 @@
 import React, { FC, useState } from "react";
 import classNames from "classnames";
 import { Theme, useThemeContext } from "../../components/context/Theme/Context";
-import { CardProps, CardSize } from "./types";
+import { CardProps} from "./types";
 import styles from "./Card.module.scss";
 import { BookmarkIcon } from "../../assets/icons/BookmarkIcon";
 import { DislikeIcon } from "../../assets/icons/DislikeIcon";
 import { LikeIcon } from "../../assets/icons/LikeIcon";
 import { MoreIcon } from "../../assets/icons/MoreIcon";
 import { AddBookmarkIcon } from "../../assets/icons";
-
+import { useNavigate } from "react-router-dom";
+import { CardSize } from "../../utils/@globalTypes";
 import { useDispatch, useSelector } from "react-redux";
 import {
   LikeStatus,
@@ -21,10 +22,11 @@ import {
 
 
 const Card: FC<CardProps> = ({ card, size }) => {
-  const { title, text, date, image } = card;
+  const { title, text, date, image, id } = card;
 
   const { theme } = useThemeContext();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const isVisible = useSelector(PostSelectors.getVisibleSelectedModal);
   const isDark = theme === Theme.Dark;
@@ -42,7 +44,9 @@ const Card: FC<CardProps> = ({ card, size }) => {
   const onClickBookmark = () => {
     dispatch(setAddPost({card}));
   };
- 
+  const onTitleClick = () => {
+    navigate(`/blog/${id}`);
+  };
   const likedPosts = useSelector(PostSelectors.getLikedPosts);
   const dislikedPosts = useSelector(PostSelectors.getDislikedPosts);
   const addPost = useSelector(PostSelectors.getAddPost);
@@ -72,6 +76,7 @@ const Card: FC<CardProps> = ({ card, size }) => {
                 [styles.mediumTitle]: isMedium || isSmall,
                 [styles.darkContainer]: isDark,
               })}
+              onClick={onTitleClick}
             >
               {title}
             </div>

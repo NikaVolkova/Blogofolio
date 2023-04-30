@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CardType } from "../../components/Card";
+import { CardListType, CardType } from "../../utils/@globalTypes";
 import { RootState } from "../store";
 
 
@@ -9,7 +9,8 @@ type InitialType={
   likedPosts: CardType[];
   dislikedPosts: CardType[];
   addPost:CardType[];
- 
+  postsList: CardListType;
+  singlePost: CardType | null;
 };
 
 
@@ -24,12 +25,22 @@ const initialState: InitialType = {
   likedPosts: [],
   dislikedPosts: [],
   addPost:[],
+  postsList: [],
+  singlePost:null,
 };
 
  const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
+    getAllPosts: (_, __: PayloadAction<undefined>) => {},
+    setAllPosts: (state, action: PayloadAction<CardListType>) => {
+      state.postsList = action.payload;
+    },
+    getSinglePost:(_, __: PayloadAction<string>)=>{},
+    setSinglePost:(state, action: PayloadAction<CardType | null>) => {
+      state.singlePost = action.payload;
+    },
     setSelectedPost: (state, action: PayloadAction<CardType | null>) => {
       state.selectedPost = action.payload;
     }, 
@@ -78,7 +89,7 @@ const initialState: InitialType = {
   },
 });
 
-export const { setStatus,setSelectedPost,setAddPost, setPostVisibility } = postSlice.actions;
+export const { setStatus, getAllPosts, setAllPosts,getSinglePost,setSinglePost, setSelectedPost,setAddPost, setPostVisibility } = postSlice.actions;
 
 
 export const postName = postSlice.name;
@@ -91,7 +102,9 @@ export const PostSelectors = {
   getSelectedPost: (state: RootState) => state.posts.selectedPost,
   getVisibleSelectedModal: (state: RootState) =>
     state.posts.isVisibleSelectedModal,
-  getAddPost:(state: RootState) => state.posts.addPost,  
+  getAddPost:(state: RootState) => state.posts.addPost,
+  getAllPosts: (state: RootState) => state.posts.postsList,
+  getSinglePost:(state:RootState)=>state.posts.singlePost,  
 };
 
 

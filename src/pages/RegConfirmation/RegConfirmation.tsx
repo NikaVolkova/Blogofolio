@@ -3,14 +3,30 @@ import styles from "./RegConfirmation.module.scss";
 import Title from "../../components/Title";
 import classNames from "classnames";
 import Button from "../../components/Button";
-import { ButtonType } from "../../components/Button/Button";
+import { ButtonType } from "../../utils/@globalTypes";
 import { Theme, useThemeContext } from "../../components/context/Theme/Context";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { RoutesList } from "../Router";
+import { useDispatch } from "react-redux";
+import { activateUser } from "../../redux/reducers/authSlice";
 
 const RegConfirmation = () => {
     const { theme } = useThemeContext();
     const isDark = theme === Theme.Dark;
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { uid, token } = useParams();
+    
+  const onConfirmButtonClick = () => {
+    if (uid && token) {
+      dispatch(
+        activateUser({
+          data: { uid, token },
+          callback: () => navigate(RoutesList.Success),
+        })
+      );
+    }
+  };
     return (
         <div>
           <div
@@ -21,7 +37,14 @@ const RegConfirmation = () => {
               className={classNames(styles.backBtnHome, {[styles.backHomeDark]: isDark,
               })}
             >
-              Back to home
+          <NavLink
+          to={RoutesList.Home}
+          className={classNames(styles.backHome, {
+            [styles.backHomeDark]: isDark,
+          })}
+        >
+          Back to home
+        </NavLink>
             </div>
             <div className={classNames(styles.titleRegConfirm)}>
               <Title title={"Registration Confirmation"} />
@@ -32,12 +55,13 @@ const RegConfirmation = () => {
                 })}
               >
     
-                <div className={styles.textComment}>Please activate your account with the activation link in the email example@gmail.com.</div>
-                Please, check your email
-                
+                <div className={styles.textComment}>{" "}
+            Please activate your account with the activation link in the email.
+            Please, check your email</div>
+               
                 <div className={styles.button}>
                   <Button
-                    title={"Go to home"} onClick={() => {}} type={ButtonType.Primary}
+                    title={"Confirm"} onClick={onConfirmButtonClick} type={ButtonType.Primary}
                   />
                 </div>
               </div>

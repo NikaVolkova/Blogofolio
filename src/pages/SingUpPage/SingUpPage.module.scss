@@ -79,3 +79,10 @@
     color: $primary-secondary;
   }
 }
+.navButton {
+  text-decoration: none;
+  color: $primary;
+  margin-left: 4px;
+  &:hover {
+    text-decoration: underline;
+  }}
